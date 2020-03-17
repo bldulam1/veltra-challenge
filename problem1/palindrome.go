@@ -1,7 +1,7 @@
 package problem1
 
-func isAlphabet(r rune) bool {
-	return ('a' <= r && r <= 'z') || ('A' <= r && r <= 'Z')
+func isAlphaNumeric(r rune) bool {
+	return ('a' <= r && r <= 'z') || ('A' <= r && r <= 'Z') || ('0' <= r && r <= '9')
 }
 
 func toLower(r rune) rune {
@@ -18,16 +18,26 @@ func toLower(r rune) rune {
  	Non-alphabets will be disregarded during checks
 */
 func isPalindrome(s string) bool {
+	if len(s) == 0 {
+		return false
+	} else if len(s) == 1 {
+		return isAlphaNumeric(rune(s[0]))
+	}
+
 	leftPtr, rightPtr := 0, len(s)-1
+	isContainAlphaNumeric := false
 
 	for leftPtr < rightPtr {
-		// move to the next character from the left if left character is not an alphabet
-		for !isAlphabet(rune(s[leftPtr])) {
+		for leftPtr < rightPtr && !isAlphaNumeric(rune(s[leftPtr])) {
 			leftPtr++
 		}
-		// move to the next character from the right if right character is not an alphabet
-		for !isAlphabet(rune(s[rightPtr])) {
+		for leftPtr < rightPtr && !isAlphaNumeric(rune(s[rightPtr])) {
 			rightPtr--
+		}
+		if !isContainAlphaNumeric &&
+			(isAlphaNumeric(rune(s[leftPtr])) ||
+				isAlphaNumeric(rune(s[rightPtr]))) {
+			isContainAlphaNumeric = true
 		}
 
 		leftChar, rightChar := toLower(rune(s[leftPtr])), toLower(rune(s[rightPtr]))
@@ -39,7 +49,7 @@ func isPalindrome(s string) bool {
 		rightPtr--
 	}
 
-	return true
+	return isContainAlphaNumeric
 }
 
 func CheckPalindrome(s string) string {
