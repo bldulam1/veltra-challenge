@@ -25,11 +25,11 @@ func isPalindrome(s string) bool {
 	leftPtr, rightPtr := 0, len(s)-1
 
 	for leftPtr < rightPtr {
-		// move to the next character from the left if not an alphabet
+		// move to the next character from the left if left character is not an alphabet
 		for !isAlphabet(rune(s[leftPtr])) {
 			leftPtr++
 		}
-		// move to the next character from the left if not an alphabet
+		// move to the next character from the right if right character is not an alphabet
 		for !isAlphabet(rune(s[rightPtr])) {
 			rightPtr--
 		}
